@@ -12,14 +12,14 @@ body {
 
 // Стили основного ограничивающего контейнера =================================
 /*
-* (i) Стили будут применяться ко 
+* (i) Стили будут применяться ко
 * всем классам содержащим *__container
 * Например header__container, main__container и т.д.
 */
 [class*='__container'] {
-  max-width: rem($containerWidth + $mainOffset * 2);
+  max-width: $maxWidthContainer;
   margin: 0 auto;
-  padding: 0 rem($mainOffset);
+  padding: 0 $mainOffset;
 }
 // Стили отзывчивых картинок (IBG) ============================================
 [class*='-ibg'] {

@@ -44,7 +44,7 @@ const scss = () => {
       // .pipe(gulp.dest(filePaths.build.css))
       .pipe(plugins.if(isBuild, cleanCss()))
       .pipe(rename({ extname: '.min.css' }))
-      .pipe(gulp.dest(filePaths.build.css))
+      .pipe(gulp.dest(filePaths.build.css), { sourcemaps: isDev })
       .pipe(plugins.browserSync.stream())
   );
 };
