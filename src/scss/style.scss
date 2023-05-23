@@ -29,6 +29,9 @@
 /** БЕМ блоки используемые во всё проекте */
 @import 'config/common';
 
+/** aнимация keyframes */
+@import 'config/keyframes';
+
 /** Подключение стилей отдельных блоков и секций */
 @import 'components/header';
 @import 'components/footer';

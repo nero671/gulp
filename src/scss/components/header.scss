@@ -16,15 +16,16 @@
 // =====================================================================================================================
 
 // Burger
-/*
+
 .icon-menu {
   display: none;
+  background: transparent;
 
   @include media(767) {
     display: block;
     position: relative;
-    width: rem(30);
-    height: rem(18);
+    width: 30px;
+    height: 18px;
     cursor: pointer;
     z-index: 5;
 
@@ -36,7 +37,7 @@
       right: 0;
       position: absolute;
       width: 100%;
-      height: rem(2);
+      height: 2px;
       background-color: #000;
     }
 
@@ -49,7 +50,7 @@
     }
 
     span {
-      top: calc(50% - rem(1));
+      top: calc(50% - 1px);
     }
 
     .menu-open & {
@@ -58,15 +59,15 @@
       }
 
       &::before {
-        top: calc(50% - rem(1));
+        top: calc(50% - 1px);
         transform: rotate(-45deg);
       }
 
       &::after {
-        bottom: calc(50% - rem(1));
+        bottom: calc(50% - 1px);
         transform: rotate(45deg);
       }
     }
   }
 }
-*/
+
