@@ -7,11 +7,13 @@
  * Если мы хотим добавить модуль следует его раскомментировать
  */
 import {
-  isWebp,
-  headerFixed,
-  togglePopupWindows,
-  addTouchClass,
-  addLoadedClass,
+    isWebp,
+    headerFixed,
+    togglePopupWindows,
+    addTouchClass,
+    addLoadedClass,
+    Tabs,
+    submitForm
 } from './modules';
 
 // import BurgerMenu from './modules/BurgerMenu';
