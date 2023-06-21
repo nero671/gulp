@@ -24,6 +24,7 @@ body {
 // Стили отзывчивых картинок (IBG) ============================================
 [class*='-ibg'] {
   position: relative;
+  width: 100%;
 
   img {
     position: absolute;
@@ -92,6 +93,7 @@ body {
     padding-top: rem($headerHeight);
   }
 }
+<<<<<<< HEAD
 
 *:hover {
   transition: all $animation-duration ease;
@@ -114,3 +116,5 @@ form label {
     transition: 0.3s;
   }
 }
+=======
+>>>>>>> origin/master
