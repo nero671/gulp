@@ -33,5 +33,4 @@
 @import 'config/keyframes';
 
 /** Подключение стилей отдельных блоков и секций */
-@import 'components/header';
-@import 'components/footer';
+@import '../html/**/*.scss';

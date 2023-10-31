@@ -52,7 +52,7 @@ body {
   visibility: hidden;
   transition: $standartTrans; // Можно задать свою анимацию
   z-index: 2000; // Увеличить если нужно
-  padding: rem(60) rem(15); // Изменить по макету
+  //padding: rem(60) rem(15); // Изменить по макету
   overflow-y: auto;
 
   @include media(768) {
@@ -84,13 +84,13 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: rem(2);
+    height: 2px;
     background: transparent;
     pointer-events: none;
   }
 
   &_start {
-    padding-top: rem($headerHeight);
+    padding-top: $headerHeight;
   }
 }
 

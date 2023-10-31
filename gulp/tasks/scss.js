@@ -6,6 +6,7 @@ import cleanCss from 'gulp-clean-css'; // Сжатие CSS файла
 import webpCss from 'gulp-webpcss'; // Вывод WEBP изображений
 import autoPrefixer from 'gulp-autoprefixer'; // Добавление вендорных префиксов
 import groupCssMediaQueries from 'gulp-group-css-media-queries'; // Группировка медиа запросов
+import sassGlob from 'gulp-sass-glob';
 
 import { filePaths } from '../config/paths.js';
 import { plugins } from '../config/plugins.js';
@@ -17,6 +18,7 @@ const scss = () => {
   return (
     gulp
       .src(filePaths.src.scss, { sourcemaps: isDev })
+      .pipe(sassGlob())
       .pipe(plugins.handleError('SCSS'))
       .pipe(sass({ outputStyle: 'expanded' }))
       .pipe(plugins.replace(/@img\//g, '../images/'))
