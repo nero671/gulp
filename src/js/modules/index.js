@@ -133,57 +133,6 @@ const Tabs = (linkWrapper, link, content) => {
   }
 }
 
-//Валидация
-
-const validateEmail = (email) => {
-  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  return emailRegex.test(email);
-}
-
-
-const submitForm = (formName) => {
-  const form = formName;
-  const email = form.querySelector('input[name="email"]');
-
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const emailValue = email.value.trim();
-    const message = form.querySelector('.input__mail span');
-
-    const changeInput = () => {
-      email.addEventListener('input', () => {
-        email.style.cssText = 'border: initial';
-        message.style.opacity = '0';
-      })
-    }
-
-    const clearInput = () => {
-      setTimeout(() => {
-        email.style.cssText = 'border: initial';
-        message.style.opacity = '0';
-        email.value = '';
-      }, 3000)
-    }
-
-
-    if (validateEmail(emailValue)) {
-      form.submit();
-      email.style.cssText = 'border: 1px solid green';
-      message.style.cssText = 'opacity:1;color:green;';
-      message.textContent = 'Success'
-      clearInput();
-    } else {
-      email.style.cssText = 'border: 1px solid red';
-      message.style.cssText = 'opacity:1;color:red;';
-      message.textContent = 'Incorrect Email'
-      changeInput();
-
-    }
-  })
-
-}
-
 export {
   isWebp,
   isMobile,
@@ -193,6 +142,5 @@ export {
   addLoadedClass,
   getHash,
   setHash,
-  Tabs,
-  submitForm
+  Tabs
 };

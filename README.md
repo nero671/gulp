@@ -1,7 +1,5 @@
 # Start Template: Gulp + WebPack + Babel
 
-Сборку делал по примеру автора [youtube](https://www.youtube.com/watch?v=jU88mLuLWlk) канала: [Фрилансер по жизни](https://www.youtube.com/c/FreelancerLifeStyle)
-
 ## Для работы используйте такие команды
 
 - Для установки всех зависимостей: `$ npm install`;
@@ -55,12 +53,4 @@ import * as flsFunctions from './modules' // './modules/index.js'
 - `webpack` c помощью `babel` позволяет тебе писать код на любимом **ES6+**;
 - в режиме `"production"` при финальной сборке файлы JS сжимаются, а лишние комментарии удаляются.
 
-## Финал
 
-Отдельной вишенкой является плагин `gh-pages` для деплоя папки `/dist` на отдельную ветку GitHub, чтобы красиво развернуть свой проект на GitHub Pages. Для этого в `package.json` укажи в поле **homepage** ссылку на свою страницу gh-pages:
-
-```json
-"homepage": "https://{UserName}.github.io/{NameRepo}",
-```
-
-По любым вопросам касающихся сборки пишите мне в [Telegram](https://t.me/StarkElessar).
