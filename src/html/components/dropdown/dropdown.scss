@@ -1,0 +1,19 @@
+.js-dropdown {
+  cursor: pointer;
+  transition: 0.35s;
+
+  &.active:after {
+    transform: rotate(180deg);
+  }
+}
+
+.js-dropdown:after {
+  content: '';
+  height: 7px;
+  width: 11px;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1.00012 0.75L5.50012 5.25L10.0001 0.75" stroke="black" stroke-width="1.5"/></svg>');
+  display: inline-flex;
+  background-repeat: no-repeat;
+  margin-left: 4px;
+  transition: 0.35s;
+}

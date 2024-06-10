@@ -103,36 +103,6 @@ const togglePopupWindows = () => {
   });
 };
 
-const Tabs = (linkWrapper, link, content) => {
-  const toggleTab = (index) => {
-    for(let i = 0; i < content.length; i++) {
-      if (index === i) {
-        link[i].classList.add('active');
-        content[i].classList.add('active');
-      } else {
-        link[i].classList.remove('active');
-        content[i].classList.remove('active');
-      }
-    }
-  }
-
-  if (linkWrapper) {
-    linkWrapper.addEventListener('click', (e) => {
-      let target = e.target;
-      const linkClass = '.' + link[0].classList[0];
-
-      if (target.matches(linkClass)) {
-        console.log('test')
-        link.forEach((item, i) => {
-          if (item === target) {
-            toggleTab(i);
-          }
-        })
-      }
-    })
-  }
-}
-
 export {
   isWebp,
   isMobile,
@@ -141,6 +111,5 @@ export {
   togglePopupWindows,
   addLoadedClass,
   getHash,
-  setHash,
-  Tabs
+  setHash
 };
