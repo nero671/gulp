@@ -1,0 +1,37 @@
+.btn {
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  font-weight: 700;
+  font-size: 16px;
+
+  transition: $standartTrans;
+  height: fit-content;
+  width: fit-content;
+
+  &-white {
+    border: 2px solid #fff;
+    color: #fff;
+
+    &:hover {
+      background: #283d87;
+      border: 2px solid #283d87;
+      color: #fff;
+    }
+  }
+
+  &-blue {
+    border: 2px solid #283d87;
+    color: #283d87;
+    background: transparent;
+
+    &:hover {
+      background: #283d87;
+      color: #fff;
+    }
+  }
+
+
+}

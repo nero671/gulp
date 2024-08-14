@@ -32,5 +32,12 @@
 /** aнимация keyframes */
 @import 'config/keyframes';
 
+@import 'components/breadcrumbs';
+@import 'components/btn';
+@import 'components/dropdown';
+@import 'components/titles';
+
+
+
 /** Подключение стилей отдельных блоков и секций */
 @import '../html/**/*.scss';
