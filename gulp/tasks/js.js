@@ -9,7 +9,7 @@ import {isDev} from "../../gulpfile.js";
 const js = () => {
   return gulp
     .src(filePaths.src.js, { sourcemaps: app.isDev })
-    .pipe(gulp.dest(filePaths.build.css))
+    .pipe(gulp.dest(filePaths.build.js))
     .pipe(plugins.handleError('JS'))
     .pipe(webpack({ config: webpackConfig(app.isDev) }))
     .pipe(gulp.dest(filePaths.build.js), { sourcemaps: app.isDev })
