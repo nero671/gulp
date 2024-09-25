@@ -103,6 +103,30 @@ const togglePopupWindows = () => {
   });
 };
 
+const cookies = () => {
+  const cookie = document.querySelector('.cookie');
+
+  if (!cookie) {
+    return;
+  }
+
+  if (sessionStorage.cookie === 'none') {
+    cookie.style.display = 'none';
+    cookie.style.opacity = '0';
+  } else {
+    cookie.style.display = 'flex';
+    cookie.style.opacity = '1';
+  }
+
+  cookie.addEventListener('click', (e) => {
+    console.log(e.target)
+    if (e.target.closest('.accept-cookie')) {
+      cookie.style.display = 'none';
+      sessionStorage.cookie = cookie.style.display;
+    }
+  });
+};
+
 export {
   isWebp,
   isMobile,
@@ -111,5 +135,6 @@ export {
   togglePopupWindows,
   addLoadedClass,
   getHash,
-  setHash
+  setHash,
+  cookies
 };
