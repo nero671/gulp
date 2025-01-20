@@ -1,0 +1,61 @@
+<form action="/" method="get" class="contacts-form validation-form">
+    <div class="form-block__controls">
+        <div class="form-control form-control--col">
+            <div class="pure-material-textfield-outlined">
+                <input id="name"
+                       class="form-control__input "
+                       type="text"
+                       name="name"
+                       placeholder=""
+                       data-pristine-required-message="Обязательное поле"
+                       maxlength='50'
+                       required=""
+                >
+                <span>ФИО</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-block__controls">
+        <div class="form-control form-control--col input-form-mask-name">
+            <input id="phone"
+                   class="form-control__input"
+                   type="tel"
+                   name="phone"
+                   placeholder="Телефон"
+                   data-pristine-required-message="Обязательное поле"
+                   maxlength='50'
+
+            >
+            <span>Телефон</span>
+        </div>
+    </div>
+
+    <div class="form-block__controls">
+        <div class="form-control form-control--col">
+            <div class="pure-material-textfield-outlined">
+                <input id="email3"
+                       class="form-control__input"
+                       type="text"
+                       name="email3"
+                       placeholder=""
+                       data-pristine-required-message="Обязательное поле"
+                       data-pristine-custom-email
+                       maxlength='50'
+                       required=""
+                >
+                <span>Email</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="order-datepicker">
+        <input type="text" id="datepicker">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5.25" y="6.75" width="19.5" height="19.5" rx="1.25" stroke="#262626" stroke-width="1.5"/>
+            <line x1="5.5" y1="13.25" x2="24.5" y2="13.25" stroke="#262626" stroke-width="1.5"/>
+            <line x1="9.25" y1="3" x2="9.25" y2="6" stroke="#262626" stroke-width="1.5"/>
+            <line x1="21.25" y1="3" x2="21.25" y2="6" stroke="#262626" stroke-width="1.5"/>
+        </svg>
+    </div>
+</form>
