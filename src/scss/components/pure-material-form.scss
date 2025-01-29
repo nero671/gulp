@@ -5,9 +5,16 @@
   padding-top: 6px;
   font-size: 16px;
   line-height: 1.5;
-  overflow: hidden;
   width: 100%;
-  height: 100%;
+  height: auto;
+
+  &.form-control__pass-wrapper .show-eye {
+    top: 56%;
+  }
+
+  & ~ button {
+    margin-top: 6px;
+  }
 }
 
 /* Input, Textarea */
@@ -15,21 +22,23 @@
 .pure-material-textfield-outlined > textarea {
   box-sizing: border-box;
   margin: 0;
-  border: solid 2px; /* Safari */
-  border-color: #aaacab;
+  border: solid 1px; /* Safari */
+  border-color: rgba(0, 0, 0, 0.3);
   //border-top-color: transparent;
-  border-radius: 40px;
-  padding: 15px 20px;
+  border-radius: 0;
+  padding: 17px 20px;
   width: 100%;
-  height: inherit;
-  color: #aaacab;
+  height: 56px;
   background-color: transparent;
   box-shadow: none; /* Firefox */
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  caret-color: #aaacab;
+  font-weight: 500;
+  font-size: 18px;
+  color: #262626;
   transition: border 0.3s, box-shadow 0.3s;
+}
+
+.pure-material-textfield-outlined > textarea {
+  height: 150px;
 }
 
 /* Span */
@@ -37,18 +46,29 @@
 .pure-material-textfield-outlined > textarea + span {
   position: absolute;
   top: 0;
-  left: 30px;
+  left: 20px;
   display: flex;
   border-color: #aaacab;
   width: auto;
   max-height: 100%;
-  color: #aaacab;
+  color: #909090;
   font-size: 75%;
   line-height: 15px;
   cursor: text;
   transition: color 0.3s, font-size 0.3s, line-height 0.3s;
+  font-weight: 500;
+  background: #fff;
+  padding: 0 5px;
+  pointer-events: none;
+
+  small {
+    color: #262626;
+    margin-left: 6px;
+    margin-top: -2px;
+  }
 }
 
+/* Стили для hover */
 .pure-material-textfield-outlined:hover > input:not(:focus):placeholder-shown,
 .pure-material-textfield-outlined:hover > textarea:not(:focus):placeholder-shown {
   border-color: #aaacab;
@@ -60,12 +80,39 @@
   border-top-color: #aaacab;
 }
 
+/* Стили для span */
 .pure-material-textfield-outlined > input:not(:focus):placeholder-shown + span,
 .pure-material-textfield-outlined > textarea:not(:focus):placeholder-shown + span {
   font-weight: 500;
-  font-size: 14px;
-  line-height: 68px;
+  font-size: 18px;
+  line-height: 50px;
+  top: 10px;
 }
+
+/* Фикс для Safari */
+@supports (-webkit-hyphens: none) {
+  /* Используем :empty вместо :placeholder-shown в Safari */
+  .pure-material-textfield-outlined > input:empty:not(:focus) + span,
+  .pure-material-textfield-outlined > textarea:empty:not(:focus) + span {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 50px;
+    top: 10px;
+  }
+
+  /* Стили для border-top-color, если :placeholder-shown не срабатывает */
+  .pure-material-textfield-outlined > input:empty:not(:focus),
+  .pure-material-textfield-outlined > textarea:empty:not(:focus) {
+    border-top-color: #aaacab;
+  }
+
+  /* Для hover */
+  .pure-material-textfield-outlined:hover > input:empty:not(:focus),
+  .pure-material-textfield-outlined:hover > textarea:empty:not(:focus) {
+    border-color: #aaacab;
+  }
+}
+
 
 /* Focus */
 .pure-material-textfield-outlined > input:focus,
@@ -76,10 +123,15 @@
 
 .pure-material-textfield-outlined > input:focus + span,
 .pure-material-textfield-outlined > textarea:focus + span {
-  color: #aaacab;
-  background: #181818;
+  color: #909090;
+  background: #fff;
   padding: 0 5px;
   text-align: center;
+  top: 0;
+
+  //small {
+  //  display: none;
+  //}
 }
 
 /* Disabled */
