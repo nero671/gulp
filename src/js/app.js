@@ -187,5 +187,24 @@ $.datepicker.regional['ru'] = {
 $.datepicker.setDefaults($.datepicker.regional['ru']);
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    document.querySelectorAll(".pure-material-textfield-outlined > input, .pure-material-textfield-outlined > textarea").forEach(input => {
+        function updateLabel() {
+            if (input.value.trim() !== "") {
+                input.classList.add("filled");
+            } else {
+                input.classList.remove("filled");
+            }
+        }
+
+        input.addEventListener("input", updateLabel);
+        input.addEventListener("blur", updateLabel);
+        updateLabel();
+    });
+
+
+
+
+
     validationForm();
 })

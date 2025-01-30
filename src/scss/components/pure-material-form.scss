@@ -92,8 +92,8 @@
 /* Фикс для Safari */
 @supports (-webkit-hyphens: none) {
   /* Используем :empty вместо :placeholder-shown в Safari */
-  .pure-material-textfield-outlined > input:empty:not(:focus) + span,
-  .pure-material-textfield-outlined > textarea:empty:not(:focus) + span {
+  .pure-material-textfield-outlined > input:not(.filled):not(:focus) + span,
+  .pure-material-textfield-outlined > textarea:not(.filled):not(:focus) + span {
     font-weight: 500;
     font-size: 18px;
     line-height: 50px;
