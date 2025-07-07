@@ -1,23 +1,48 @@
-export const customSelect  = () => {
-    const select = document.querySelector('.custom-select');
-    const selectItems = select?.querySelector('.select-items');
-    const selectSelected = select?.querySelector('.select-selected span');
+const initCustomSelects = () => {
+    const wrappers = document.querySelectorAll('.custom-select-wrapper');
 
-    select?.addEventListener('click', function () {
-        select.classList.toggle('show');
-    });
+    wrappers.forEach(wrapper => {
+        const nativeSelect = wrapper.querySelector('select');
+        const customSelect = wrapper.querySelector('.custom-select');
 
-    selectItems?.querySelectorAll('div').forEach((option) => {
-        option.addEventListener('click', function () {
-            selectItems.querySelectorAll('div').forEach((el) => {
-                el.classList.remove('active');
+        const selected = document.createElement('div');
+        selected.className = 'custom-select__selected';
+        selected.textContent = nativeSelect.options[nativeSelect.selectedIndex]?.textContent || 'Выбрать';
+
+        const optionsContainer = document.createElement('div');
+        optionsContainer.className = 'custom-select__options';
+
+        [...nativeSelect.options].forEach(option => {
+            if (!option.value) return;
+
+            const customOption = document.createElement('div');
+            customOption.className = 'custom-select__option';
+            customOption.textContent = option.textContent;
+
+            customOption.addEventListener('click', () => {
+                selected.textContent = option.textContent;
+                nativeSelect.value = option.value;
+                customSelect.classList.remove('open');
             });
 
-            option.classList.add('active');
+            optionsContainer.appendChild(customOption);
+        });
 
-            selectSelected.textContent = option.textContent;
+        customSelect.appendChild(selected);
+        customSelect.appendChild(optionsContainer);
 
-            selectItems.classList.remove('show');
+        selected.addEventListener('click', () => {
+            document.querySelectorAll('.custom-select.open').forEach(openSelect => {
+                if (openSelect !== customSelect) openSelect.classList.remove('open');
+            });
+            customSelect.classList.toggle('open');
+        });
+
+        document.addEventListener('click', e => {
+            if (!wrapper.contains(e.target)) {
+                customSelect.classList.remove('open');
+            }
         });
     });
 }
+

@@ -1,3 +1,7 @@
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   &.lock {
     overflow: hidden;
@@ -97,22 +101,3 @@ body {
 *:hover {
   transition: all $animation-duration ease;
 }
-
-form label {
-  position: relative;
-
-  input {
-    transition: 0.3s;
-  }
-
-  span {
-    color: $redColor;
-    position: absolute;
-    left: 5px;
-    bottom: -175%;
-    font-size: 14px;
-    opacity: 0;
-    transition: 0.3s;
-  }
-}
-
