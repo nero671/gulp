@@ -4,11 +4,11 @@ export const dropdown = () => {
         const allDropdowns = document.querySelectorAll('.js-dropdown.active');
 
         if (dropdown) {
-            if (dropdown.classList.contains('active')) {
-            } else {
-                allDropdowns.forEach(d => d.classList.remove('active'));
-                dropdown.classList.add('active');
-            }
+            dropdown.classList.toggle('active');
+
+            allDropdowns.forEach(d => {
+                if (d !== dropdown) d.classList.remove('active');
+            });
         } else {
             allDropdowns.forEach(d => d.classList.remove('active'));
         }
