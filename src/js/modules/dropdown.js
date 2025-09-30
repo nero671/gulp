@@ -17,3 +17,26 @@ export const dropdown = () => {
         }
     });
 };
+
+
+const select = document.querySelector('.custom-select__selected');
+const shops = document.querySelectorAll('.order-page__delivery-shop');
+const shopsList = document.querySelector('.shops-list');
+
+function updateActiveShops() {
+    const selectedText = select.textContent;
+
+    shops.forEach(shop => {
+        const shopCity = shop.getAttribute('data-city');
+
+        if (selectedText === 'Все') {
+            shop.classList.add('active');
+        } else {
+            shop.classList.toggle('active', shopCity === selectedText);
+        }
+    });
+}
+
+window.addEventListener('DOMContentLoaded', updateActiveShops);
+
+shopsList?.addEventListener('click', updateActiveShops);

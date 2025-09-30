@@ -1,17 +1,91 @@
 <!DOCTYPE html>
 <html lang="ru">
-  @@include('html/head.html', {
-    'title': 'Главная'
-  })
-  <body>
-    <div class="wrapper">
-      @@include('html/header/header.html', {})
-      <main class="page">
-        <div data-observ></div>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.min.css">
 
-      </main>
-      @@include('html/footer/footer.html', {})
+  <title>Разводящая</title>
+
+  <style>
+    .wrapper-ini {
+      height: 100vh;
+      width: 100%;
+    }
+
+    .wrapper-ini__container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .wrapper-ini__title {
+      color: #373843;
+      font-size: 56px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 110%;
+      letter-spacing: -1.68px;
+      margin-bottom: 20px;
+    }
+
+
+    .wrapper-ini__links {
+      width: fit-content;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: #fff;
+      border-radius: 30px;
+      gap: 20px;
+    }
+
+    .wrapper-ini__links a {
+      padding: 5px 15px;
+      border: 1px solid #00A0DC;
+      border-radius: 30px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 576px) {
+      .wrapper-ini__links {
+        height: 90%;
+        overflow: auto;
+        padding-bottom: 50px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+<div class="wrapper-ini">
+  <div class="wrapper-ini__container">
+    <h1 class="wrapper-ini__title">
+      Страницы
+    </h1>
+    <div class="wrapper-ini__links">
+      <a href="home.html">
+        Главная
+      </a>
+
+
+
     </div>
-    @@include('html/script.html', {})
-  </body>
+
+  </div>
+
+</div>
+@@include('html/script.html', {})
+</body>
 </html>
