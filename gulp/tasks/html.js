@@ -3,6 +3,8 @@ import fileInclude from 'gulp-file-include';
 import webpHtml from 'gulp-webp-html-nosvg';
 import versionNumber from 'gulp-version-number';
 import htmlMin from 'gulp-htmlmin';
+import compileHandlebars from 'gulp-compile-handlebars';
+import rename from 'gulp-rename';
 
 import { plugins } from '../config/plugins.js';
 import { filePaths } from '../config/paths.js';
@@ -11,6 +13,18 @@ const html = () => {
   return gulp
     .src(filePaths.src.html)
     .pipe(plugins.handleError('HTML'))
+    .pipe(
+      compileHandlebars({}, {
+          batch: ['src/html'],
+          helpers: {
+              parseJson: (str) => {
+                  try { return JSON.parse(str); }
+                  catch(e) { console.error('Ошибка JSON:', e); return []; }
+              }
+          }
+      })
+    )
+    .pipe(rename({ extname: '.html' }))
     .pipe(fileInclude())
     .pipe(plugins.replace(/@img\//g, 'images/'))
     .pipe(plugins.if(app.isBuild, webpHtml()))

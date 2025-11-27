@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+@@include('html/head.html', {
+'title': 'Главная'
+})
+<body>
+<div class="wrapper">
+  @@include('html/header/header.html', {})
+  <main class="page">
+    <div data-observ></div>
+    {{> components/breadcrumbs/breadcrumbs
+      items=(parseJson '[
+        { "title": "Главная", "url": "/" },
+        { "title": "О компании", "url": "/services" },
+        { "title": "Разработка" },
+        { "title": "Контакты", "url": "/contacts" },
+        { "title": "Карьера", "url": "/careers" },
+        { "title": "Блог", "url": "/blog" }
+      ]')
+    }}
+
+    <div class="form-content">
+      <form action="#" class="form validation-form">
+        <div class="form-item">
+          <div class="form-control">
+            <span>ФИО</span>
+            <input id="name"
+                   class="form-control__input "
+                   type="text"
+                   name="name"
+                   placeholder="Иванов Иван Иванович"
+                   required-message="Обязательное поле"
+                   only-letters
+                   maxlength='50'
+                   required=""
+            >
+          </div>
+        </div>
+
+        <div class="form-item">
+          <div class="form-control">
+            <span>Телефон</span>
+            <input id="tel"
+                   class="form-control__input "
+                   type="tel"
+                   name="tel"
+                   placeholder="+375 ( "
+                   required-message="Номер указан неверно"
+                   phone
+                   maxlength='50'
+                   required=""
+            >
+          </div>
+        </div>
+
+        <div class="form-item">
+          <div class="form-control">
+            <span>Email</span>
+            <input id="email"
+                   class="form-control__input "
+                   type="text"
+                   name="em"
+                   placeholder="email@mail.com"
+                   required-message="Обязательное поле"
+                   custom-email
+                   maxlength='50'
+                   required=""
+            >
+          </div>
+        </div>
+
+        <div class="form-item">
+          <div class="form-control">
+            <span>Введите Ваш комментарий</span>
+            <textarea id="message"
+                      class="form-control__input "
+                      name="text"
+                      placeholder="0/300"
+                      required-message="Обязательное поле"
+                      maxlength='300'
+                      required=""
+            ></textarea>
+            <span id="char-counter" style="display:none; font-size: 12px;"></span>
+          </div>
+        </div>
+
+        <div class="form-item">
+          <div class="form-control form-control-checkbox">
+            <input id="form-checkbox"
+                   class="custom-checkbox"
+                   type="checkbox"
+                   name="form-checkbox"
+                   checked
+                   required=""
+                   required-message="Обязательное поле"
+            >
+            <label for="form-checkbox" class="form-control__text-wrapper">
+              <div class="form-control__text">
+                Я согласен на обработку личных данных в соответствии
+                <a href="#">с политикой конфиденциальности</a>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-item">
+          <button class="btn form-btn">
+            Отправить
+          </button>
+        </div>
+      </form>
+    </div>
+
+
+
+
+  </main>
+  @@include('html/footer/footer.html', {})
+</div>
+@@include('html/script.html', {})
+</body>
+</html>

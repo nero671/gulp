@@ -1,13 +1,12 @@
-<form action="#" method="post">
-    <div class="custom-select-wrapper">
-        <select name="for" class="native-select" hidden>
-            <option value="">Кому (выбрать из списка)</option>
-            <option value="business">Служба франчайзинга и оптовых продаж</option>
-            <option value="develop">Служба развития и рекламы</option>
-            <option value="supply">Служба снабжения и производства</option>
-            <option value="hr">Служба управления персоналом</option>
-            <option value="info">Другое</option>
-        </select>
-        <div class="custom-select"></div>
-    </div>
-</form>
+<div class="custom-select-wrapper">
+    <select name="{{name}}" class="native-select" hidden>
+        {{#if placeholder}}
+            <option value="">{{placeholder}}</option>
+        {{/if}}
+
+        {{#each options}}
+            <option value="{{value}}">{{label}}</option>
+        {{/each}}
+    </select>
+    <div class="custom-select"></div>
+</div>
