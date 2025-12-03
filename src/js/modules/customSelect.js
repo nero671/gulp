@@ -22,6 +22,7 @@ const initCustomSelects = () => {
             customOption.addEventListener('click', () => {
                 selected.textContent = option.textContent;
                 nativeSelect.value = option.value;
+                nativeSelect.dispatchEvent(new Event('change'));
                 customSelect.classList.remove('open');
             });
 
