@@ -30,6 +30,14 @@ export const validation = () => {
             return value.length >= 19;
         },
         phoneMessage: 'Введите полный телефон в соответствии с "маской"',
+
+        passwordMatch: (value, field) => {
+            const form = field.closest('form');
+            const password = form.querySelector('#password');
+            return password && password.value === value;
+        },
+        passwordMatchMessage: 'Пароли не совпадают',
+
     };
 
     // Function to add or remove error messages
@@ -74,6 +82,10 @@ export const validation = () => {
             if (field.hasAttribute('phone')) {
                 isValid = validators.phone(field.value);
                 errorMessage = validators.phoneMessage;
+            }
+            if (field.hasAttribute('password-match')) {
+                isValid = validators.passwordMatch(field.value, field);
+                errorMessage = validators.passwordMatchMessage;
             }
         }
 
