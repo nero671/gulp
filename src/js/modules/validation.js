@@ -33,8 +33,28 @@ export const validation = () => {
 
         passwordMatch: (value, field) => {
             const form = field.closest('form');
-            const password = form.querySelector('#password');
-            return password && password.value === value;
+            if (!form) return true;
+
+            const passwordFields = Array.from(form.querySelectorAll('input[type="password"]'));
+
+            const mainPasswordField = passwordFields[0];
+
+            if (!field.hasAttribute('password-match') || !mainPasswordField) {
+                return true;
+            }
+
+            const passwordsMatch = mainPasswordField.value === value;
+
+            const confirmField = field;
+            setFieldStatus(confirmField, passwordsMatch, passwordsMatch ? '' : validators.passwordMatchMessage);
+
+            if (confirmField.value.trim() && mainPasswordField.value !== confirmField.value) {
+                setFieldStatus(mainPasswordField, false, validators.passwordMatchMessage);
+            } else if (mainPasswordField.value === confirmField.value || !confirmField.value.trim()) {
+                setFieldStatus(mainPasswordField, true, '');
+            }
+
+            return passwordsMatch;
         },
         passwordMatchMessage: 'Пароли не совпадают',
 
@@ -96,6 +116,15 @@ export const validation = () => {
         }
 
         setFieldStatus(field, isValid, errorMessage);
+
+        if (field.type === 'password' && !field.hasAttribute('password-match')) {
+            const form = field.closest('form');
+            const confirmField = form.querySelector('input[type="password"][password-match]');
+            if (confirmField && confirmField.value.trim()) {
+                validateField(confirmField);
+            }
+        }
+
         return isValid;
     };
 
