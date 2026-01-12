@@ -24,9 +24,16 @@ import {
 
 // import AOS from 'aos'
 
-import Swiper, { Navigation, Pagination } from 'swiper';
+import Swiper, {Autoplay, Navigation, Pagination} from 'swiper';
 import validationForm from "./modules/validationForm.js";
 import {validation} from "./modules/validation.js";
+
+window.Swiper = Swiper;
+window.SwiperModules = {
+    Navigation,
+    Pagination,
+    Autoplay,
+};
 
 /* Проверка поддержки webp, добавление класса webp или no-webp для HTML
  ! (i) необходимо для корректного отображения webp из css
