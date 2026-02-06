@@ -1,11 +1,7 @@
-select[hidden] {
-  display: block !important;
-  position: absolute !important;
-  opacity: 0 !important;
-  width: 0;
-  height: 0;
-  margin: 0;
-  padding: 0;
+select.native-select {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .custom-select-wrapper {
@@ -20,24 +16,30 @@ select[hidden] {
 
 .custom-select__selected {
   position: relative;
-  padding: 10px 40px 10px 14px;
-  border: 1px solid #1e1e1e;
-  background: #fff;
+  padding: 29px 0 7px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.40);
+  background: transparent;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #FFF;
+  font-family: 'Onest', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
 }
 
 .custom-select__selected::after {
   content: '';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   right: 14px;
-  width: 11px;
-  height: 6px;
+  width: 16px;
+  height: 16px;
   transition: transform 0.3s ease;
   pointer-events: none;
   background-repeat: no-repeat;
-  background-image: url('data:image/svg+xml,<svg width="11" height="6" viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.99929 0.411067L5.5892 4.99923L1.00104 0.589135" stroke="%231E1E1E" /></svg>');
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15 7.99976L10.0503 12.9495C8.87868 14.1211 6.97919 14.1211 5.80761 12.9495L0.857866 7.99976" stroke="white" stroke-width="2"/></svg>');
 }
 
 .custom-select.open .custom-select__selected::after {
@@ -50,21 +52,27 @@ select[hidden] {
   width: 100%;
   top: 100%;
   left: 0;
-  border: 1px solid #ccc;
   border-top: none;
-  background: #fff;
-  z-index: 10;
+  background: #1D2A4F;
+  z-index: 2;
   max-height: 200px;
   overflow-y: auto;
+  margin-top: 10px;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
 }
 
 .custom-select__option {
-  padding: 10px 14px;
+  padding-bottom: 5px;
   cursor: pointer;
-}
-
-.custom-select__option:hover {
-  background-color: #f0f0f0;
+  color: #FFF;
+  font-family: 'Onest', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
 }
 
 .custom-select.open .custom-select__options {

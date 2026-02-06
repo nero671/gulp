@@ -1,9 +1,9 @@
-const initCustomSelects = () => {
-    const wrappers = document.querySelectorAll('.custom-select-wrapper');
-
-    wrappers.forEach(wrapper => {
+export const customSelect = () => {
+    const initSelect = (wrapper) => {
         const nativeSelect = wrapper.querySelector('select');
         const customSelect = wrapper.querySelector('.custom-select');
+
+        if (!nativeSelect || !customSelect) return;
 
         const selected = document.createElement('div');
         selected.className = 'custom-select__selected';
@@ -19,31 +19,47 @@ const initCustomSelects = () => {
             customOption.className = 'custom-select__option';
             customOption.textContent = option.textContent;
 
-            customOption.addEventListener('click', () => {
+            customOption.addEventListener('click', (e) => {
+                e.stopPropagation();
+
                 selected.textContent = option.textContent;
                 nativeSelect.value = option.value;
                 nativeSelect.dispatchEvent(new Event('change'));
+
                 customSelect.classList.remove('open');
             });
 
             optionsContainer.appendChild(customOption);
         });
 
+        customSelect.innerHTML = '';
         customSelect.appendChild(selected);
         customSelect.appendChild(optionsContainer);
+    };
 
-        selected.addEventListener('click', () => {
+    document.querySelectorAll('.custom-select-wrapper').forEach(initSelect);
+
+    document.addEventListener('click', (e) => {
+        const customSelect = e.target.closest('.custom-select');
+
+        if (customSelect) {
+            const isCurrentlyOpen = customSelect.classList.contains('open');
+
             document.querySelectorAll('.custom-select.open').forEach(openSelect => {
-                if (openSelect !== customSelect) openSelect.classList.remove('open');
+                openSelect.classList.remove('open');
             });
-            customSelect.classList.toggle('open');
-        });
 
-        document.addEventListener('click', e => {
-            if (!wrapper.contains(e.target)) {
-                customSelect.classList.remove('open');
+            if (!isCurrentlyOpen) {
+                customSelect.classList.add('open');
             }
-        });
-    });
-}
 
+            return;
+        }
+
+        if (!e.target.closest('.custom-select-wrapper')) {
+            document.querySelectorAll('.custom-select.open').forEach(openSelect => {
+                openSelect.classList.remove('open');
+            });
+        }
+    });
+};

@@ -1,12 +1,10 @@
 <div class="custom-select-wrapper">
-    <select name="{{name}}" class="native-select" hidden>
-        {{#if placeholder}}
-            <option value="">{{placeholder}}</option>
-        {{/if}}
+    <select name="@@name" class="native-select" hidden>
+        <option value="">@@text</option>
 
-        {{#each options}}
-            <option value="{{value}}">{{label}}</option>
-        {{/each}}
+        @@for (let i = 0; i < data.length; i++) {
+        <option value="`+data[i].id + '-' + i+`">`+data[i].label + `</option>
+        }
     </select>
     <div class="custom-select"></div>
 </div>
