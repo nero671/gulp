@@ -60,3 +60,7 @@ body {
 svg {
   overflow: visible;
 }
+
+h1, h2, h3, h4, h5, h6, p, div, span, b, i, strong {
+  text-box: trim-both cap alphabetic; //обрезает текст ровно по границам
+}
