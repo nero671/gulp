@@ -1,19 +1,21 @@
+// Боковая панель фильтра: открывается классом ._is-open (togglePopupWindows / data-popup)
 .filter {
   display: flex;
   position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: -1;
+  inset: 0;
+  z-index: 9999;
   align-items: center;
   justify-content: flex-end;
   opacity: 0;
-  transition: all 0.3s;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s, visibility 0.3s;
   background: rgba(20, 22, 24, 0.4);
 
   &._is-open {
-    z-index: 9999;
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 
     .filter-wrapper {
       transform: translateX(0);
@@ -23,8 +25,8 @@
   &-wrapper {
     width: 363px;
     background: #fff;
-    min-height: 100vh;
     height: 100%;
+    overscroll-behavior: contain;
     overflow: auto;
     padding: 40px;
     display: flex;
@@ -68,18 +70,24 @@
       }
     }
 
+    // Плавное раскрытие на CSS Grid: 0fr → 1fr (JS не считает высоту)
     &__content {
-      transition: $standartTrans;
+      display: grid;
+      grid-template-rows: 0fr;
       opacity: 0;
-      height: 0;
-      overflow: hidden;
+      visibility: hidden;
+      transition: grid-template-rows 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease, visibility 0.3s;
 
       &.active {
+        grid-template-rows: 1fr;
         margin-top: 32px;
         opacity: 1;
+        visibility: visible;
       }
 
       &-wrapper {
+        min-height: 0;
+        overflow: hidden;
         display: grid;
         grid-template-columns: repeat(2,1fr);
         gap: 20px;
@@ -151,7 +159,7 @@
       background: #000;
     }
 
-    &:hover {
+    @include hover {
       background: #1e1e1e;
       color: #fff;
     }

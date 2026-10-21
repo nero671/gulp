@@ -4,6 +4,9 @@ const projectDirName = path.basename(path.resolve());
 const buildFolder = `./dist`;
 const srcFolder = `./src`;
 
+/** Расширения растровых картинок (в обоих регистрах, т.к. glob чувствителен к регистру) */
+const imageExt = '{jpg,jpeg,png,gif,webp,avif,ico,JPG,JPEG,PNG,GIF,WEBP,AVIF,ICO}';
+
 const filePaths = {
   build: {
     js: `${buildFolder}/js/`,
@@ -15,20 +18,23 @@ const filePaths = {
   },
   src: {
     js: `${srcFolder}/js/app.js`,
-    images: `${srcFolder}/images/**/*.{jpg,jpeg,png,gif,webp}`,
+    images: `${srcFolder}/images/**/*.${imageExt}`,
     svg: `${srcFolder}/images/**/*.svg`,
     scss: `${srcFolder}/scss/style.scss`,
     html: `${srcFolder}/*.html`,
+    htmlPartials: `${srcFolder}/html`,
+    fonts: `${srcFolder}/fonts`,
     static: `${srcFolder}/static/**/*.*`,
     svgIcons: `${srcFolder}/icons/*.svg`,
   },
   watch: {
     js: `${srcFolder}/js/**/*.js`,
-    scss: `${srcFolder}/scss/**/*.scss`,
+    scss: `${srcFolder}/**/*.scss`,
     html: `${srcFolder}/**/*.html`,
-    htmlScss: `${srcFolder}/**/*.scss`,
-    images: `${srcFolder}/**/*.{jpg,jpeg,png,svg,gif,webp,ico}`,
+    images: `${srcFolder}/images/**/*.{${imageExt.slice(1, -1)},svg,SVG}`,
+    svgIcons: `${srcFolder}/icons/*.svg`,
     static: `${srcFolder}/static/**/*.*`,
+    rootFiles: `${srcFolder}/{favicon.ico,.htaccess}`,
   },
   clean: buildFolder,
   buildFolder: buildFolder,

@@ -9,13 +9,37 @@ const concatPathAndFileName = (path, files) => {
   return files.map((file) => `${path}/${file}`);
 };
 
-const handleError = (taskName) => {
-  return plumber({
-    errorHandler: notify.onError({
+/** Системное уведомление об ошибке (macOS / Windows / Linux) */
+const notifyError = (taskName, error) => {
+  notify
+    .onError({
       title: taskName,
       message: 'Error: <%= error.message %>',
-    }),
+    })
+    .call({}, error);
+};
+
+/**
+ * В режиме разработки ошибка показывается уведомлением, а watch продолжает работать.
+ * В режиме build ошибка останавливает сборку, чтобы битый проект не ушёл в dist/zip/ftp.
+ */
+const handleError = (taskName) => {
+  return plumber({
+    errorHandler(error) {
+      notifyError(taskName, error);
+
+      if (app.isBuild) {
+        throw error;
+      }
+
+      this.emit('end');
+    },
   });
+};
+
+/** Перезагрузка браузера, только если сервер запущен (в build его нет) */
+const reloadBrowser = () => {
+  if (browserSync.active) browserSync.reload();
 };
 
 export const plugins = {
@@ -27,4 +51,6 @@ export const plugins = {
   newer,
   concat: concatPathAndFileName,
   handleError,
+  notifyError,
+  reloadBrowser,
 };

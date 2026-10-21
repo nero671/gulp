@@ -28,7 +28,7 @@ const formValidation = () => {
 
     Pristine.addValidator('custom-email', (value) => {
         // eslint-disable-next-line no-useless-escape
-        const regEx = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+        const regEx = /^[-a-z0-9~!$%^&*_=+}{'?]+(\.[-a-z0-9~!$%^&*_=+}{'?]+)*@[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*\.(xn--[a-z0-9-]+|[a-z]{2,})$/i;
 
         if (value.match(regEx)) return true;
 
@@ -52,7 +52,7 @@ const formValidation = () => {
     }, 'Вы можете ввести только буквы (латиница, кириллица)');
 
     Pristine.addValidator('letters-num-symb', (value) => {
-        const regEx = /^[a-zA-Zа-яА-ЯЁё0-9\s!@#$%^&*()_+-=,.<>?;:'"{}[]|\/\\]+$/;
+        const regEx = /^[a-zA-Zа-яА-ЯЁё0-9\s!@#$%^&*()_+\-=,.<>?;:'"{}[\]|/\\]+$/;
 
         if (value.match(regEx) || !value.length) return true;
 
@@ -148,7 +148,7 @@ const formValidation = () => {
 
             if (!valid) {
                 event.preventDefault();
-                event.target.querySelector('.form-control--error').scrollIntoView({ block: 'center' });
+                form.querySelector('.form-control--error')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
             } else {
 
                 form.dispatchEvent(

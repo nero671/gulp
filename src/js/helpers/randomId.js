@@ -13,4 +13,12 @@ const generateByteValue = (match) => {
   return byteValue.toString(16);
 };
 
-export const uuIdV4 = () => idPrefix.replace(/[018]/g, generateByteValue);
+/**
+ * UUID v4.
+ * crypto.randomUUID есть во всех современных браузерах, но только на https/localhost,
+ * поэтому оставлен запасной вариант.
+ */
+export const uuIdV4 = () =>
+  typeof crypto.randomUUID === 'function'
+    ? crypto.randomUUID()
+    : idPrefix.replace(/[018]/g, generateByteValue);

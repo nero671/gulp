@@ -1,32 +1,35 @@
+/**
+ * Счётчик количества (+ / -).
+ * Ограничения задаются атрибутами: <div class="counter" data-min="1" data-max="99">
+ * При изменении значения на input отправляется событие change.
+ */
 export const counter = () => {
-    const counterNode  = document.querySelectorAll('.counter');
+    document.querySelectorAll('.counter').forEach((counterNode) => {
+        const minusButton = counterNode.querySelector('.minus');
+        const plusButton = counterNode.querySelector('.plus');
+        const countInput = counterNode.querySelector('.count');
 
-    counterNode.forEach(counter => {
-        const minusButton = counter.querySelector('.minus');
-        const plusButton = counter.querySelector('.plus');
-        const countInput = counter.querySelector('.count');
-        const updateMinusButtonState = () => {
-            if (parseInt(countInput.value) <= 1) {
-                minusButton.setAttribute('disabled', true);
-            } else {
-                minusButton.removeAttribute('disabled');
-            }
+        if (!minusButton || !plusButton || !countInput) return;
+
+        const min = Number(counterNode.dataset.min ?? 1);
+        const max = Number(counterNode.dataset.max ?? Infinity);
+
+        const updateButtonsState = () => {
+            const value = Number(countInput.value);
+
+            minusButton.disabled = value <= min;
+            plusButton.disabled = value >= max;
         };
 
-        minusButton.addEventListener('click', () => {
-            let currentValue = parseInt(countInput.value);
-            if (currentValue > 1) {
-                countInput.value = currentValue - 1;
-                updateMinusButtonState();
-            }
-        });
+        const setValue = (value) => {
+            countInput.value = Math.min(Math.max(value, min), max);
+            countInput.dispatchEvent(new Event('change', { bubbles: true }));
+            updateButtonsState();
+        };
 
-        plusButton.addEventListener('click', () => {
-            let currentValue = parseInt(countInput.value);
-            countInput.value = currentValue + 1;
-            updateMinusButtonState();
-        });
+        minusButton.addEventListener('click', () => setValue(Number(countInput.value) - 1));
+        plusButton.addEventListener('click', () => setValue(Number(countInput.value) + 1));
 
-        updateMinusButtonState();
+        updateButtonsState();
     });
 }

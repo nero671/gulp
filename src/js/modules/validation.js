@@ -15,14 +15,14 @@ export const validation = () => {
     // Validation functions
     const validators = {
         customEmail: (value) => {
-            const regEx = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-            return value.match(regEx);
+            const regEx = /^[-a-z0-9~!$%^&*_=+}{'?]+(\.[-a-z0-9~!$%^&*_=+}{'?]+)*@[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*\.(xn--[a-z0-9-]+|[a-z]{2,})$/i;
+            return regEx.test(value);
         },
         customEmailMessage: 'Введите корректный email',
 
         onlyLetters: (value) => {
             const regEx = /^[a-zA-Z а-яА-ЯЁё-]+$/;
-            return value.match(regEx) || !value.length;
+            return regEx.test(value) || !value.length;
         },
         onlyLettersMessage: 'Вы можете ввести только буквы (латиница, кириллица)',
 

@@ -18,9 +18,13 @@
   text-transform: uppercase;
   color: #262626;
   background: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  &[disabled] {
+  &:disabled {
     opacity: 0.3;
+    cursor: not-allowed;
   }
 }
 

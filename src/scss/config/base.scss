@@ -31,7 +31,9 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  overflow: hidden; // clip - если используется в проекте position: sticky
+  overflow: hidden;
+  // clip обрезает так же, как hidden, но не ломает position: sticky
+  overflow: clip;
 }
 
 .page {
@@ -53,8 +55,14 @@ body {
   }
 }
 
-*:hover {
-  transition: all $animation-duration ease;
+/**
+ * Плавные hover-эффекты для интерактивных элементов (и при наведении, и при уходе курсора).
+ * :where() не добавляет специфичности — любой transition в компоненте перекроет это правило.
+ */
+:where(a, button, input, textarea, select, label, [data-type]) {
+  transition-property: color, background-color, border-color, opacity, box-shadow;
+  transition-duration: $animation-duration;
+  transition-timing-function: ease;
 }
 
 svg {
@@ -63,4 +71,15 @@ svg {
 
 h1, h2, h3, h4, h5, h6, p, div, span, b, i, strong {
   text-box: trim-both cap alphabetic; //обрезает текст ровно по границам
+}
+
+// Отключаем анимации, если пользователь попросил об этом в настройках системы
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

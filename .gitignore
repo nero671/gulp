@@ -2,3 +2,5 @@
 /.temporary_cache/
 /dist/
 /node_modules/
+/*.zip
+.DS_Store

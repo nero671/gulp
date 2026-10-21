@@ -12,21 +12,25 @@ import {
     togglePopupWindows,
     addTouchClass,
     addLoadedClass,
-    Tabs,
-    submitForm
 } from './modules';
 
 // import BurgerMenu from './modules/BurgerMenu';
 
-// import Tabs from 'modules/Tabs';
+// import { initTabs } from './modules/tabs';
+
+// import { initAccordions } from './modules/accordion';
+
+// import { cookiesInit } from './modules/cookies';
 
 // import { MousePRLX } from './libs/parallaxMouse'
 
 // import AOS from 'aos'
 
-import Swiper, {Autoplay, Navigation, Pagination} from 'swiper';
-import validationForm from "./modules/validationForm.js";
-import {validation} from "./modules/validation.js";
+// import validationForm from './modules/validationForm.js';
+
+import Swiper from 'swiper';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { validation } from './modules/validation.js';
 
 window.Swiper = Swiper;
 window.SwiperModules = {
@@ -50,6 +54,20 @@ isWebp();
 // new BurgerMenu().init();
 
 /**
+ * Табы (разметка: src/html/components/tabs/tabs.html)
+ */
+// initTabs();
+
+/**
+ * Аккордеон (разметка: src/html/components/accordion/accordion.html)
+ * Плавное открытие сделано на CSS Grid — без расчёта высоты в JS
+ */
+// initAccordions();
+
+/** Баннер cookies (разметка: src/html/components/cookies-banner/cookies-banner.html) */
+// cookiesInit();
+
+/**
  *  Библиотека для анимаций
  *  документация: https://michalsnik.github.io/aos
  */
@@ -69,13 +87,12 @@ isWebp();
 
  * На обертку(враппер) окна добавь класс _overlay-bg
  * На кнопку для закрытия окна добавь класс button-close
+ * Окно также закрывается по клавише Escape
  */
 // togglePopupWindows();
 
-// const tabs = new Tabs('default-tabs', {});
-
 const maskDropDownResizer = () => {
-    [...document.querySelectorAll('input[type="tel"]')].map((item) => {
+    document.querySelectorAll('input[type="tel"]').forEach((item) => {
         const wrapper = item.closest('.iti--inline-dropdown');
         const droppdown = wrapper?.querySelector('[id*="dropdown-content"]');
 
@@ -197,13 +214,7 @@ window.addEventListener('resize', maskDropDownResizer);
 document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll(".pure-material-textfield-outlined > input, .pure-material-textfield-outlined > textarea").forEach(input => {
-        function updateLabel() {
-            if (input.value.trim() !== "") {
-                input.classList.add("filled");
-            } else {
-                input.classList.remove("filled");
-            }
-        }
+        const updateLabel = () => input.classList.toggle('filled', input.value.trim() !== '');
 
         input.addEventListener("input", updateLabel);
         input.addEventListener("blur", updateLabel);

@@ -1,61 +1,61 @@
-export const countNumAnim = () => {
+/**
+ * Анимация чисел при появлении в зоне видимости.
+ *
+ * Разметка: <span data-count-target="12 500">0</span>
+ * Дробные числа поддерживаются: data-count-target="4,8"
+ *
+ * @param {string} selector - селектор элементов
+ * @param {number} duration - длительность анимации (мс)
+ */
+export const countNumAnim = (selector = '[data-count-target]', duration = 2000) => {
+  const elements = document.querySelectorAll(selector);
 
-    function formatNumber(num) {
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  if (!elements.length) return;
+
+  const formatNumber = (num, decimals) =>
+    num.toLocaleString('ru-RU', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+
+  const animate = (el) => {
+    const raw = el.dataset.countTarget.replace(/\s/g, '').replace(',', '.');
+    const target = parseFloat(raw);
+    const decimals = raw.includes('.') ? raw.split('.')[1].length : 0;
+
+    if (Number.isNaN(target)) return;
+
+    // Пользователь отключил анимации в системе — сразу показываем итог
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = formatNumber(target, decimals);
+      return;
     }
 
-    function animateCounters(elements, totalDuration = 2000) {
-        const startTime = performance.now();
+    const startTime = performance.now();
 
-        function update(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / totalDuration, 1);
+    const update = (currentTime) => {
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const eased = 1 - (1 - progress) ** 3; // easeOutCubic
 
-            elements.forEach(({ el, target }) => {
-                const value = Math.floor(target * progress);
-                el.textContent = value >= 10000 ? formatNumber(value) : value;
+      el.textContent = formatNumber(target * eased, decimals);
 
-                if (progress === 1) {
-                    el.textContent = formatNumber(target);
-                }
-            });
+      if (progress < 1) requestAnimationFrame(update);
+    };
 
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            }
-        }
+    requestAnimationFrame(update);
+  };
 
-        requestAnimationFrame(update);
-    }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(({ isIntersecting, target }) => {
+        if (!isIntersecting) return;
 
-    let hasExecuted = false;
+        observer.unobserve(target);
+        animate(target);
+      });
+    },
+    { threshold: 0.3 }
+  );
 
-    function checkAndRun() {
-        if (hasExecuted) return;
-
-        const aboutAdv = document.querySelector('.about-adv__wrapper');
-        if (!aboutAdv) return;
-
-        const rect = aboutAdv.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-
-        if (rect.top <= windowHeight && rect.bottom >= 0) {
-            hasExecuted = true;
-
-            const elements = [
-                document.querySelector('#number1'),
-                document.querySelector('#number2'),
-                document.querySelector('#number3'),
-                document.querySelector('#number4')
-            ].filter(Boolean).map(el => ({
-                el,
-                target: parseFloat(el.getAttribute("data-target").replace(',', '.'))
-            }));
-
-            animateCounters(elements, 2000);
-        }
-    }
-
-    window.addEventListener('scroll', checkAndRun);
-    window.addEventListener('load', checkAndRun);
+  elements.forEach((el) => observer.observe(el));
 };

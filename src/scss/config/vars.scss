@@ -16,11 +16,16 @@ $whiteColor: #fff;
 $blackColor: #131313;
 $grayColor: #6f6f6f;
 $redColor: #ff4040;
+$blueColor: #004c97;
 
 $firstAccentColor: $blackColor;
 $secondAccentColor: $redColor;
 
-$fontFamily: $mainFont, sans-serif; // Семейство шрифта по умолчанию
+$fontFamily: sans-serif; // Семейство шрифта по умолчанию
+@if $mainFont != '' {
+  $fontFamily: $mainFont, sans-serif;
+}
+$fontFamilySecondary: $fontFamily; // Дополнительное семейство шрифта
 $fontColor: $blackColor; // Цвет шрифта по умолчанию
 $fontSize: 16; // Размер шрифта по умолчанию
 $fontWeight: $mainWeight; // Жирность шрифта по умолчанию

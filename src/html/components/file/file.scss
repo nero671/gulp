@@ -5,6 +5,10 @@
   width: 100%;
   margin-top: 20px;
 
+  &:focus-within .custom-file-label-wrapper {
+    border-color: #262626;
+  }
+
   .form-control--success {
     .custom-file-label-wrapper {
       border: none;
@@ -123,7 +127,7 @@
 
 .file-size {
   font-size: 10px;
-  font-width: 400;
+  font-weight: 400;
 }
 
 .file-remove {

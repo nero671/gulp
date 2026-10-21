@@ -1,13 +1,17 @@
+// Выезжающее сверху меню. Открывается классом ._is-open
 .burger-menu {
   position: absolute;
-  top: -100%;
+  top: 0;
+  left: 0;
   background: #fff;
   width: 100%;
   height: auto;
   padding-bottom: 60px;
-  transition: $standartTrans;
   display: none;
-  z-index: -1;
+  z-index: 999;
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform 0.28s ease-in-out, visibility 0.28s;
 
   @include media(1200) {
     display: block;
@@ -16,15 +20,12 @@
   @include media(600) {
     padding-bottom: 100px;
     min-height: 100vh;
-  }
-
-  @include media(350) {
-    top: -180%;
+    min-height: 100dvh;
   }
 
   &._is-open {
-    z-index: 999;
-    top: 0;
+    transform: translateY(0);
+    visibility: visible;
   }
 
   &-wrapper {

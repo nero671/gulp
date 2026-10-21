@@ -22,7 +22,18 @@
       background-position: center center;
       background-size: 125% 110%;
       margin-right: 8px;
+      transition: background-color $animation-duration, border-color $animation-duration;
     }
+  }
+
+  &:focus-visible + label::before {
+    outline: 2px solid #00A0DC;
+    outline-offset: 2px;
+  }
+
+  &:disabled + label {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   &:checked+label::before {

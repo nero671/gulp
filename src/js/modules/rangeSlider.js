@@ -9,6 +9,8 @@ const rangeSlider = () => {
         const element = wrap.querySelector('.range-slider__element');
         const inputs = wrap.querySelectorAll('.range-slider__input');
 
+        if (!element || element.noUiSlider) return;
+
         noUiSlider.create(element, {
             start: [Number(wrap.dataset.rangeStart), Number(wrap.dataset.rangeEnd)],
             connect: true,
@@ -27,8 +29,8 @@ const rangeSlider = () => {
         });
 
         inputs.forEach((input, handle) => {
-            input.addEventListener('change', function () {
-                element.noUiSlider.setHandle(handle, this.value);
+            input.addEventListener('change', () => {
+                element.noUiSlider.setHandle(handle, input.value);
             });
 
             input.addEventListener('keydown', (e) => {
@@ -41,11 +43,11 @@ const rangeSlider = () => {
 
                 let position;
 
-                switch (e.which) {
-                    case 13:
-                        element.noUiSlider.setHandle(handle, this.value);
+                switch (e.key) {
+                    case 'Enter':
+                        element.noUiSlider.setHandle(handle, input.value);
                         break;
-                    case 38:
+                    case 'ArrowUp':
                         // eslint-disable-next-line prefer-destructuring
                         position = step[1];
 
@@ -59,7 +61,7 @@ const rangeSlider = () => {
 
                         break;
 
-                    case 40:
+                    case 'ArrowDown':
                         // eslint-disable-next-line prefer-destructuring
                         position = step[0];
 

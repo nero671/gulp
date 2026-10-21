@@ -1,4 +1,4 @@
-<div class="cookies-banner" data-cookies-banner>
+<div class="cookies-banner" data-cookies-banner role="dialog" aria-label="Согласие на использование cookies">
   <div class="cookies-banner__content">
     <div class="cookies-banner__info">
       <div class="cookies-banner__text">
@@ -7,7 +7,7 @@
         использование cookies и обработку данных согласно
         <a href="#">Политике конфиденциальности</a>.
       </div>
-      <button class="cookies-banner__close js-cookies-banner-hide">
+      <button class="cookies-banner__close js-cookies-banner-hide" type="button" aria-label="Закрыть">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"
@@ -21,7 +21,7 @@
       </button>
     </div>
     <div class="cookies-banner__buttons">
-      <button href="#" class="btn btn-blue js-cookies-banner-hide js-cookies-accept">
+      <button class="btn btn-blue js-cookies-banner-hide js-cookies-accept" type="button">
         Принять все
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@
           ></path>
         </svg>
       </button>
-      <button class="btn btn-gray js-cookies-banner-hide" data-type="cookies-popup">
+      <button class="btn btn-gray js-cookies-banner-hide" type="button" data-type="cookies-popup">
         Настроить
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -50,14 +50,14 @@
         >
           <path
             d="M6.66667 15.834L12.5 10.0007L6.66667 4.16732"
-            stroke="#004C97"
+            stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
           ></path>
         </svg>
       </button>
-      <button class="btn btn-gray js-cookies-banner-hide js-cookies-declain">
+      <button class="btn btn-gray js-cookies-banner-hide js-cookies-declain" type="button">
         Отклонить
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@
         >
           <path
             d="M6.66667 15.834L12.5 10.0007L6.66667 4.16732"
-            stroke="#004C97"
+            stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"

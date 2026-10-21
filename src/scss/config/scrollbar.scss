@@ -1,11 +1,16 @@
-// Firefox
+@use 'sass:color';
+
+/**
+ * Chrome 121+, Edge, Firefox — стандартные свойства scrollbar-width / scrollbar-color.
+ * Safari — ::-webkit-scrollbar (Chrome их игнорирует, если заданы стандартные свойства).
+ */
 * {
-  scrollbar-width: 8px;
+  scrollbar-width: thin;
   scrollbar-color: $firstAccentColor #d6d6d6;
 
-  // Chrome, Edge, and Safari
   &::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
     background-color: $whiteColor;
   }
 
@@ -22,7 +27,7 @@
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
     border: 0 none #fff;
-    background-color: lighten($firstAccentColor, 10%);
+    background-color: color.adjust($firstAccentColor, $lightness: 10%);
     transition: all 280ms ease-in-out;
 
     &:hover {
@@ -34,5 +39,3 @@
     }
   }
 }
-
-

@@ -1,6 +1,4 @@
 // Заголовки, общие БЄМ блоки и проче...
-
-// Заголовки, общие БЄМ блоки и проче...
 [data-type] svg {
   pointer-events: none;
 }
@@ -9,9 +7,13 @@ span, p, a, b, strong, li {
   color: inherit;
 }
 
+/**
+ * При сборке <img> оборачивается в <picture> для webp.
+ * display: contents — <picture> не участвует в раскладке, поэтому стили картинок
+ * (flex/grid, размеры) работают одинаково в dev и build.
+ */
 picture {
-  width: 100%;
-  height: 100%;
+  display: contents;
 }
 
 *::placeholder {

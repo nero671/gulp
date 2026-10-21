@@ -1,6 +1,6 @@
-import del from 'del';
+import { rm } from 'node:fs/promises';
 import { filePaths } from '../config/paths.js';
 
-const reset = () => del(filePaths.clean);
+const reset = () => rm(filePaths.clean, { recursive: true, force: true });
 
 export { reset };

@@ -1,7 +1,10 @@
+// transform анимируется на GPU и не вызывает перерасчёт раскладки (в отличие от top)
 @keyframes showHeader {
-  0% {
-    top: -100%;
-  } 100% {
-    top: 0;
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
   }
 }

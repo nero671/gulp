@@ -1,17 +1,19 @@
 import gulp from 'gulp';
-import del from 'del';
+import { rmSync } from 'node:fs';
 import zipPlugin from 'gulp-zip';
 
 import { filePaths } from '../config/paths.js';
 import { plugins } from '../config/plugins.js';
 
 const zip = () => {
-  del(`./${filePaths.projectDirName}.zip`);
+  const archiveName = `${filePaths.projectDirName}.zip`;
+
+  rmSync(`./${archiveName}`, { force: true });
 
   return gulp
-    .src(`${filePaths.buildFolder}/**/*.*`, {})
+    .src(`${filePaths.buildFolder}/**/*`, { encoding: false, dot: true, nodir: true })
     .pipe(plugins.handleError('ZIP'))
-    .pipe(zipPlugin(`${filePaths.projectDirName}.zip`))
+    .pipe(zipPlugin(archiveName))
     .pipe(gulp.dest('./'));
 };
 

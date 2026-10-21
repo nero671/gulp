@@ -29,7 +29,12 @@ export class MousePRLX {
 
     this.config = Object.assign(defaultConfig, props);
 
-    if (this.config.init) {
+    // На сенсорных экранах мыши нет, а при «уменьшении движения» в системе эффект не нужен
+    const isDisabled =
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      !window.matchMedia('(any-hover: hover)').matches;
+
+    if (this.config.init && !isDisabled) {
       const paralaxMouse = document.querySelectorAll('[data-prlx-mouse]');
 
       if (paralaxMouse.length) {

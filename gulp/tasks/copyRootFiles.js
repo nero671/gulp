@@ -6,6 +6,7 @@ const copyRootFiles = () => {
   const config = {
     dot: true,
     allowEmpty: true,
+    encoding: false,
   };
 
   /** Добавляем файлы, которые нужны в корне проекта */

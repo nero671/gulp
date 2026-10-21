@@ -18,7 +18,7 @@ import { createSvgSprite } from './gulp/tasks/createSvgSprite.js';
 import { zip } from './gulp/tasks/zip.js';
 import { ftp } from './gulp/tasks/ftp.js';
 
-// Передаем значения в глобальную переменную
+// Передаем значения в глобальную переменную (используется во всех задачах)
 global.app = {
   isBuild: process.argv.includes('--build'),
   isDev: !process.argv.includes('--build'),
@@ -27,19 +27,17 @@ global.app = {
   plugins,
 };
 
-const isBuild = process.argv.includes('--build');
-const isDev = !process.argv.includes('--build');
-
 /**
  * Наблюдатель за изменениями в файлах
  */
 function watcher() {
   gulp.watch(filePaths.watch.static, copy);
+  gulp.watch(filePaths.watch.rootFiles, copyRootFiles);
   gulp.watch(filePaths.watch.html, html);
-  gulp.watch(filePaths.watch.htmlScss, scss);
   gulp.watch(filePaths.watch.scss, scss);
   gulp.watch(filePaths.watch.js, js);
   gulp.watch(filePaths.watch.images, images);
+  gulp.watch(filePaths.watch.svgIcons, createSvgSprite);
 }
 
 // Последовательная обработка шрифтов
@@ -48,7 +46,7 @@ const fonts = gulp.series(otfToTtf, ttfToWoff, fontStyle);
 /**
  * Параллельные задачи в режиме разработки
  */
-const devTasks = gulp.parallel(copy, copyRootFiles, html, scss, js, images);
+const devTasks = gulp.parallel(copy, copyRootFiles, html, scss, js, images, createSvgSprite);
 
 /**
  * Основные задачи
@@ -71,4 +69,4 @@ gulp.task('default', dev);
 /**
  * Экспорт сценариев
  */
-export { dev, build, deployZIP, deployFTP, createSvgSprite, isBuild, isDev };
+export { dev, build, deployZIP, deployFTP, createSvgSprite };

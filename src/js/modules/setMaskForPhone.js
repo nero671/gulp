@@ -3,7 +3,7 @@ import IMask from 'imask';
 const setMaskForPhone = () => {
   const phones = document.querySelectorAll('.phone-mask');
 
-  if (!phones.length);
+  if (!phones.length) return;
 
   phones.forEach((phone) => {
     IMask(phone, {

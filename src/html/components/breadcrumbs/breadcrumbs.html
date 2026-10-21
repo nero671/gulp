@@ -1,10 +1,10 @@
-<div class="breadcrumbs">
+<nav class="breadcrumbs" aria-label="Хлебные крошки">
     <div class="breadcrumbs__container">
         <ul>
             {{#each items}}
             <li>
                 {{#if @last}}
-                <span>{{this.title}}</span>
+                <span aria-current="page">{{this.title}}</span>
                 {{else}}
                 <a href="{{this.url}}">{{this.title}}</a>
                 {{/if}}
@@ -12,4 +12,4 @@
             {{/each}}
         </ul>
     </div>
-</div>
+</nav>

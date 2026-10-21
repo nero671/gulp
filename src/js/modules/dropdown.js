@@ -1,42 +1,42 @@
-export const dropdown = () => {
-    document.body.addEventListener('click', (e) => {
-        const dropdown = e.target.closest('.js-dropdown');
-        const allDropdowns = document.querySelectorAll('.js-dropdown.active');
-        const isOption = e.target.closest('.js-dropdown__option');
+/**
+ * Выпадающий список.
+ * Клик по .js-dropdown открывает/закрывает его, клик вне или Escape — закрывает все.
+ */
+const ACTIVE_CLASS = 'active';
 
-        if (dropdown) {
-            if (!isOption) {
-                dropdown.classList.toggle('active');
-            }
+const closeAll = (except) => {
+    document.querySelectorAll(`.js-dropdown.${ACTIVE_CLASS}`).forEach((dropdown) => {
+        if (dropdown === except) return;
 
-            allDropdowns.forEach(d => {
-                if (d !== dropdown) d.classList.remove('active');
-            });
-        } else {
-            allDropdowns.forEach(d => d.classList.remove('active'));
-        }
+        dropdown.classList.remove(ACTIVE_CLASS);
+        dropdown.setAttribute('aria-expanded', 'false');
     });
 };
 
+export const dropdown = () => {
+    document.querySelectorAll('.js-dropdown').forEach((dropdown) => {
+        dropdown.setAttribute('aria-expanded', String(dropdown.classList.contains(ACTIVE_CLASS)));
+    });
 
-const select = document.querySelector('.custom-select__selected');
-const shops = document.querySelectorAll('.order-page__delivery-shop');
-const shopsList = document.querySelector('.shops-list');
+    document.addEventListener('click', (e) => {
+        const dropdown = e.target.closest('.js-dropdown');
 
-function updateActiveShops() {
-    const selectedText = select.textContent;
+        closeAll(dropdown);
 
-    shops.forEach(shop => {
-        const shopCity = shop.getAttribute('data-city');
+        if (dropdown && !e.target.closest('.js-dropdown__option')) {
+            const isActive = dropdown.classList.toggle(ACTIVE_CLASS);
 
-        if (selectedText === 'Все') {
-            shop.classList.add('active');
-        } else {
-            shop.classList.toggle('active', shopCity === selectedText);
+            dropdown.setAttribute('aria-expanded', String(isActive));
         }
     });
-}
 
-window.addEventListener('DOMContentLoaded', updateActiveShops);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeAll();
 
-shopsList?.addEventListener('click', updateActiveShops);
+        // Открытие с клавиатуры (у .js-dropdown стоит role="button" и tabindex="0")
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.classList?.contains('js-dropdown')) {
+            e.preventDefault();
+            e.target.click();
+        }
+    });
+};

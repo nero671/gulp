@@ -1,3 +1,21 @@
+/**
+ * Кастомный select поверх нативного <select> (значение всегда синхронизировано с ним,
+ * поэтому форма отправляется как обычно).
+ * Управление с клавиатуры: Enter/Пробел — открыть/выбрать, ↑/↓ — навигация, Escape — закрыть.
+ */
+const OPEN_CLASS = 'open';
+const SELECTED_CLASS = 'is-selected';
+const FOCUSED_CLASS = 'is-focused';
+
+const closeAll = (except) => {
+    document.querySelectorAll(`.custom-select.${OPEN_CLASS}`).forEach((select) => {
+        if (select === except) return;
+
+        select.classList.remove(OPEN_CLASS);
+        select.querySelector('.custom-select__selected')?.setAttribute('aria-expanded', 'false');
+    });
+};
+
 export const customSelect = () => {
     const initSelect = (wrapper) => {
         const nativeSelect = wrapper.querySelector('select');
@@ -5,31 +23,102 @@ export const customSelect = () => {
 
         if (!nativeSelect || !customSelect) return;
 
+        const listId = `custom-select-${Math.random().toString(36).slice(2, 9)}`;
+
         const selected = document.createElement('div');
         selected.className = 'custom-select__selected';
+        selected.tabIndex = 0;
+        selected.setAttribute('role', 'combobox');
+        selected.setAttribute('aria-haspopup', 'listbox');
+        selected.setAttribute('aria-expanded', 'false');
+        selected.setAttribute('aria-controls', listId);
         selected.textContent = nativeSelect.options[nativeSelect.selectedIndex]?.textContent || 'Выбрать';
 
         const optionsContainer = document.createElement('div');
         optionsContainer.className = 'custom-select__options';
+        optionsContainer.id = listId;
+        optionsContainer.setAttribute('role', 'listbox');
 
-        [...nativeSelect.options].forEach(option => {
-            if (!option.value) return;
+        const customOptions = [...nativeSelect.options]
+            .filter((option) => option.value)
+            .map((option) => {
+                const customOption = document.createElement('div');
+                customOption.className = 'custom-select__option';
+                customOption.textContent = option.textContent;
+                customOption.dataset.value = option.value;
+                customOption.setAttribute('role', 'option');
+                customOption.setAttribute('aria-selected', String(option.selected && nativeSelect.value === option.value));
+                optionsContainer.appendChild(customOption);
 
-            const customOption = document.createElement('div');
-            customOption.className = 'custom-select__option';
-            customOption.textContent = option.textContent;
-
-            customOption.addEventListener('click', (e) => {
-                e.stopPropagation();
-
-                selected.textContent = option.textContent;
-                nativeSelect.value = option.value;
-                nativeSelect.dispatchEvent(new Event('change'));
-
-                customSelect.classList.remove('open');
+                return customOption;
             });
 
-            optionsContainer.appendChild(customOption);
+        let focusedIndex = -1;
+
+        const setOpen = (isOpen) => {
+            if (isOpen) closeAll(customSelect);
+
+            customSelect.classList.toggle(OPEN_CLASS, isOpen);
+            selected.setAttribute('aria-expanded', String(isOpen));
+        };
+
+        const focusOption = (index) => {
+            focusedIndex = (index + customOptions.length) % customOptions.length;
+            customOptions.forEach((option, i) => option.classList.toggle(FOCUSED_CLASS, i === focusedIndex));
+            customOptions[focusedIndex]?.scrollIntoView({ block: 'nearest' });
+        };
+
+        const choose = (customOption) => {
+            selected.textContent = customOption.textContent;
+            nativeSelect.value = customOption.dataset.value;
+            nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+
+            customOptions.forEach((option) => {
+                const isSelected = option === customOption;
+
+                option.classList.toggle(SELECTED_CLASS, isSelected);
+                option.setAttribute('aria-selected', String(isSelected));
+            });
+
+            setOpen(false);
+            selected.focus();
+        };
+
+        selected.addEventListener('click', () => setOpen(!customSelect.classList.contains(OPEN_CLASS)));
+
+        optionsContainer.addEventListener('click', (e) => {
+            const customOption = e.target.closest('.custom-select__option');
+
+            if (customOption) choose(customOption);
+        });
+
+        selected.addEventListener('keydown', (e) => {
+            const isOpen = customSelect.classList.contains(OPEN_CLASS);
+
+            switch (e.key) {
+                case 'Enter':
+                case ' ':
+                    e.preventDefault();
+
+                    if (isOpen && customOptions[focusedIndex]) {
+                        choose(customOptions[focusedIndex]);
+                    } else {
+                        setOpen(!isOpen);
+                    }
+                    break;
+                case 'ArrowDown':
+                case 'ArrowUp':
+                    e.preventDefault();
+                    setOpen(true);
+                    focusOption(focusedIndex + (e.key === 'ArrowDown' ? 1 : -1));
+                    break;
+                case 'Escape':
+                case 'Tab':
+                    setOpen(false);
+                    break;
+                default:
+                    break;
+            }
         });
 
         customSelect.innerHTML = '';
@@ -39,27 +128,8 @@ export const customSelect = () => {
 
     document.querySelectorAll('.custom-select-wrapper').forEach(initSelect);
 
+    // Клик вне селекта закрывает все открытые
     document.addEventListener('click', (e) => {
-        const customSelect = e.target.closest('.custom-select');
-
-        if (customSelect) {
-            const isCurrentlyOpen = customSelect.classList.contains('open');
-
-            document.querySelectorAll('.custom-select.open').forEach(openSelect => {
-                openSelect.classList.remove('open');
-            });
-
-            if (!isCurrentlyOpen) {
-                customSelect.classList.add('open');
-            }
-
-            return;
-        }
-
-        if (!e.target.closest('.custom-select-wrapper')) {
-            document.querySelectorAll('.custom-select.open').forEach(openSelect => {
-                openSelect.classList.remove('open');
-            });
-        }
+        closeAll(e.target.closest('.custom-select'));
     });
 };

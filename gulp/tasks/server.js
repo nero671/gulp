@@ -1,7 +1,7 @@
 import { plugins } from '../config/plugins.js';
 import { filePaths } from '../config/paths.js';
 
-const server = (done) => {
+const server = () => {
   plugins.browserSync.init({
     server: {
       baseDir: filePaths.build.html,

@@ -1,53 +1,47 @@
 import gulp from 'gulp';
-import dartSass from 'sass';
+import * as dartSass from 'sass';
 import gulpSass from 'gulp-sass';
 import rename from 'gulp-rename';
-import cleanCss from 'gulp-clean-css'; // Сжатие CSS файла
-import webpCss from 'gulp-webpcss'; // Вывод WEBP изображений
-import autoPrefixer from 'gulp-autoprefixer'; // Добавление вендорных префиксов
-import groupCssMediaQueries from 'gulp-group-css-media-queries'; // Группировка медиа запросов
 import sassGlob from 'gulp-sass-glob';
+import postcss from 'gulp-postcss';
+import autoprefixer from 'autoprefixer'; // Вендорные префиксы (-webkit-, -moz-) по browserslist из package.json
+import sortMediaQueries from 'postcss-sort-media-queries'; // Группировка медиа запросов
+import cssnano from 'cssnano'; // Сжатие CSS файла
 
 import { filePaths } from '../config/paths.js';
 import { plugins } from '../config/plugins.js';
-import { isBuild, isDev } from '../../gulpfile.js';
+import { webpCss } from '../plugins/webp.js'; // Вывод WEBP изображений через image-set()
 
 const sass = gulpSass(dartSass);
 
 const scss = () => {
+  const postcssPlugins = app.isBuild
+    ? [sortMediaQueries({ sort: 'desktop-first' }), webpCss(), autoprefixer()]
+    : [autoprefixer()];
+
   return (
     gulp
-      .src(filePaths.src.scss, { sourcemaps: isDev })
-      .pipe(sassGlob())
+      .src(filePaths.src.scss, { sourcemaps: app.isDev })
       .pipe(plugins.handleError('SCSS'))
-      .pipe(sass({ outputStyle: 'expanded' }))
+      .pipe(sassGlob())
+      .pipe(
+        sass({
+          style: 'expanded',
+          /** Позволяет импортировать стили из пакетов: @import 'swiper/swiper' */
+          loadPaths: ['node_modules'],
+          /** @import пока оставлен ради glob-импортов (@import '../html/**\/*.scss') */
+          silenceDeprecations: ['import'],
+          quietDeps: true,
+        })
+      )
       .pipe(plugins.replace(/@img\//g, '../images/'))
-      .pipe(plugins.if(isBuild, groupCssMediaQueries()))
-      .pipe(
-        plugins.if(
-          isBuild,
-          webpCss({
-            webpClass: '.webp',
-            noWebpClass: '.no-webp',
-          })
-        )
-      )
-      .pipe(
-        plugins.if(
-          isBuild,
-          autoPrefixer({
-            grid: true,
-            overrideBrowserslist: ['last 3 versions'],
-            cascade: true,
-          })
-        )
-      )
-      /** Раскомментировать если нужен не сжатый дубль файла стилей */
+      .pipe(postcss(postcssPlugins))
+      /** Не сжатый дубль файла стилей (style.css) */
       .pipe(gulp.dest(filePaths.build.css))
-      .pipe(plugins.if(isBuild, cleanCss()))
+      .pipe(plugins.if(app.isBuild, postcss([cssnano({ preset: 'default' })])))
       .pipe(rename({ extname: '.min.css' }))
-      .pipe(gulp.dest(filePaths.build.css), { sourcemaps: isDev })
-      .pipe(plugins.browserSync.stream())
+      .pipe(gulp.dest(filePaths.build.css, { sourcemaps: app.isDev ? '.' : false }))
+      .pipe(plugins.browserSync.stream({ match: '**/*.css' }))
   );
 };
 

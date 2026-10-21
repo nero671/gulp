@@ -1,19 +1,21 @@
-// const cookiesAcceptName = 'COOKIES_ACCEPTED';
-// const cookiesDeclainName = 'COOKIES_DECLAINED';
+const cookiesAcceptName = 'COOKIES_ACCEPTED';
+const cookiesDeclainName = 'COOKIES_DECLAINED';
 const cookiesClassMod = 'is-active';
+/** Срок хранения решения пользователя (дней) */
+const cookiesMaxAgeDays = 365;
 
-const getCookie = (name) => {
-  let matches = document.cookie.match(
-    new RegExp(
-      '(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)'
-    )
+export const getCookie = (name) => {
+  const matches = document.cookie.match(
+    new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)')
   );
+
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };
 
-const setCookie = (name, value, options = {}) => {
+export const setCookie = (name, value, options = {}) => {
   options = {
     path: '/',
+    SameSite: 'Lax',
     ...options,
   };
 
@@ -21,12 +23,11 @@ const setCookie = (name, value, options = {}) => {
     options.expires = options.expires.toUTCString();
   }
 
-  let updatedCookie =
-    encodeURIComponent(name) + '=' + encodeURIComponent(value);
+  let updatedCookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
 
-  for (let optionKey in options) {
+  for (const [optionKey, optionValue] of Object.entries(options)) {
     updatedCookie += '; ' + optionKey;
-    let optionValue = options[optionKey];
+
     if (optionValue !== true) {
       updatedCookie += '=' + optionValue;
     }
@@ -35,7 +36,7 @@ const setCookie = (name, value, options = {}) => {
   document.cookie = updatedCookie;
 };
 
-const deleteCookie = (name) => {
+export const deleteCookie = (name) => {
   setCookie(name, '', {
     'max-age': -1,
   });
@@ -44,61 +45,33 @@ const deleteCookie = (name) => {
 const getCookieBanner = () => document.querySelector('[data-cookies-banner]');
 
 const showCookiesBanner = () => {
-  const cookisBanner = getCookieBanner();
-
-  if (cookisBanner) {
-    cookisBanner.classList.add(cookiesClassMod);
-  }
+  getCookieBanner()?.classList.add(cookiesClassMod);
 };
 
 const hideCookiesBanner = () => {
-  const cookisBanner = getCookieBanner();
-
-  if (cookisBanner) {
-    cookisBanner.classList.remove(cookiesClassMod);
-  }
+  getCookieBanner()?.classList.remove(cookiesClassMod);
 };
 
-// const acceptCookiesHandler = () =>
-//   [...document.querySelectorAll('.js-cookies-accept')].map((button) => {
-//     button.addEventListener('click', () => {
-//       deleteCookie(cookiesDeclainName);
-//       setCookie(cookiesAcceptName, true);
-//       hideCookiesBanner();
-// 
-//       setTimeout(() => {
-//         getCookieBanner()?.remove;
-//       }, 300);
-//     });
-//   });
-
-// const declainCookiesHandler = () =>
-//   [...document.querySelectorAll('.js-cookies-declain')].map((button) => {
-//     button.addEventListener('click', () => {
-//       deleteCookie(cookiesAcceptName);
-//       setCookie(cookiesDeclainName, true);
-//       hideCookiesBanner();
-// 
-//       setTimeout(() => {
-//         getCookieBanner()?.remove;
-//       }, 300);
-//     });
-//   });
-
-const showCookiesHandler = () =>
-  [...document.querySelectorAll('.js-cookies-banner-show')].map((button) => {
-    button.addEventListener('click', showCookiesBanner);
+/** Сохраняем выбор пользователя (принял / отклонил) */
+const saveChoice = (isAccepted) => {
+  deleteCookie(isAccepted ? cookiesDeclainName : cookiesAcceptName);
+  setCookie(isAccepted ? cookiesAcceptName : cookiesDeclainName, true, {
+    'max-age': cookiesMaxAgeDays * 24 * 60 * 60,
   });
+  hideCookiesBanner();
+};
 
-const hideCookiesHandler = () =>
-  [...document.querySelectorAll('.js-cookies-banner-hide')].map((button) => {
-    button.addEventListener('click', hideCookiesBanner);
-  });
+export const isCookiesAccepted = () => getCookie(cookiesAcceptName) === 'true';
 
 export const cookiesInit = () => {
-  showCookiesBanner();
-  showCookiesHandler();
-  hideCookiesHandler();
-  // acceptCookiesHandler();
-  // declainCookiesHandler();
+  const hasChoice = getCookie(cookiesAcceptName) || getCookie(cookiesDeclainName);
+
+  if (!hasChoice) showCookiesBanner();
+
+  document.addEventListener('click', ({ target }) => {
+    if (target.closest('.js-cookies-accept')) saveChoice(true);
+    if (target.closest('.js-cookies-declain')) saveChoice(false);
+    if (target.closest('.js-cookies-banner-show')) showCookiesBanner();
+    if (target.closest('.js-cookies-banner-hide')) hideCookiesBanner();
+  });
 };
